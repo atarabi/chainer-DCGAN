@@ -6,7 +6,7 @@ import time
 from PIL import Image
 import pylab
 import numpy as np
-from chainer import Chain, Variable, optimizers, serializers, cuda
+from chainer import Chain, Variable, optimizers, optimizer, serializers, cuda
 from chainer.cuda import cupy as cp
 import chainer.functions as F
 import chainer.links as L
@@ -159,6 +159,8 @@ class Trainer:
         opt_dis = optimizers.Adam(alpha=0.0002, beta1=0.5)
         opt_gen.setup(dcgan.gen)
         opt_dis.setup(dcgan.dis)
+        opt_gen.add_hook(optimizer.WeightDecay(0.00001))
+        opt_dis.add_hook(optimizer.WeightDecay(0.00001))
 
         return cls(name, merged_params, dcgan, opt_gen, opt_dis)
 
@@ -184,6 +186,8 @@ class Trainer:
         opt_dis = optimizers.Adam(alpha=0.0002, beta1=0.5)
         opt_gen.setup(dcgan.gen)
         opt_dis.setup(dcgan.dis)
+        opt_gen.add_hook(optimizer.WeightDecay(0.00001))
+        opt_dis.add_hook(optimizer.WeightDecay(0.00001))
 
         filenames = Trainer.get_model_filenames(name, params['current_epoch'])
         model_dir = os.path.join(Trainer.MODEL_DIR, name)
