@@ -202,7 +202,7 @@ class Trainer:
     def load_generator(cls, name, epoch=-1):
         params = Trainer.load_params(name)
         current_epoch = params['current_epoch']
-        epoch = current_epoch if epoch == -1 else min(args.epoch, current_epoch)
+        epoch = current_epoch if epoch == -1 else min(epoch, current_epoch)
 
         model_dir = os.path.join(Trainer.MODEL_DIR, name)
         model_filename = Trainer.get_model_filenames(name, epoch)['model_gen']
