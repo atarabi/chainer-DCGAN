@@ -253,7 +253,9 @@ class Trainer:
         train = params['train']
         batchsize = params['batchsize']
         output_interval = train // 2
+        xp.random.seed(0)
         z_vis = xp.random.uniform(-1, 1, (100, nz)).astype(np.float32)
+        xp.random.seed()
         loader = ImageLoader(self._image_dir, batchsize)
 
         for epoch in range(params['current_epoch'] + 1, params['epoch']):
@@ -288,7 +290,6 @@ class Trainer:
                 if i % output_interval == 0:
                     pylab.rcParams['figure.figsize'] = (16.0, 16.0)
                     pylab.clf()
-                    vissize = 100
                     z = z_vis
                     z[50:, :] = xp.random.uniform(-1, 1, (50, nz)).astype(np.float32)
                     z = Variable(z)
